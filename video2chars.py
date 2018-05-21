@@ -1,8 +1,12 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 import numpy as np
 import pickle
 import os
+
+# 用于生成字符画的像素，越往后视觉上越明显。。这是我自己按感觉排的，你可以随意调整。写函数里效率太低，所以只好放全局了
+pixels = " .,-'`:!1+*abcdefghijklmnopqrstuvwxyz<>()\/{}[]?234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ%&@#$"
+
 
 def video2imgs(video_name, size):
     """
@@ -49,8 +53,6 @@ def img2chars(img):
     :param img: numpy.ndarray, 图像矩阵
     :return: 字符串的列表：图像对应的字符画，其每一行对应图像的一行像素
     """
-    # 用于生成字符画的像素，越往后视觉上越明显。。这是我自己按感觉排的，你可以随意调整。
-    pixels = " .,-'`:!1+*abcdefghijklmnopqrstuvwxyz<>()\/{}[]?234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ%&@#$"
 
     # 要注意这里的顺序和 之前的 size 刚好相反
     height, width = img.shape
@@ -94,6 +96,7 @@ def play_video(video_chars):
 
     # 初始化curses，这个是必须的，直接抄就行
     stdscr = curses.initscr()
+    curses.start_color()
     try:
         # 调整窗口大小，宽度最好略大于字符画宽度。另外注意curses的height和width的顺序
         stdscr.resize(height, width * 2)
@@ -101,11 +104,11 @@ def play_video(video_chars):
         for pic_i in range(len(video_chars)):
             # 显示 pic_i，即第i帧字符画
             for line_i in range(height):
-                # 将pic_i的第i行写入第i列。(line_i, 0)表示从第i行的开头开始写入。
-                stdscr.addstr(line_i, 0, video_chars[pic_i][line_i])
+                # 将pic_i的第i行写入第i列。(line_i, 0)表示从第i行的开头开始写入。最后一个参数设置字符为白色
+                stdscr.addstr(line_i, 0, video_chars[pic_i][line_i], curses.COLOR_WHITE)
             stdscr.refresh()  # 写入后需要refresh才会立即更新界面
 
-            time.sleep(1 / 50)  # 粗略地控制播放速度。
+            time.sleep(1 / 24)  # 粗略地控制播放速度。
     finally:
         # curses 使用前要初始化，用完后无论有没有异常，都要关闭
         curses.endwin()
