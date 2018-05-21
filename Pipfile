@@ -1,0 +1,14 @@
+[[source]]
+url = "https://mirrors.ustc.edu.cn/pypi/web/simple"
+verify_ssl = true
+name = "pypi-ustc"
+
+[packages]
+opencv-python = "*"
+numpy = "*"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,20 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "ae67241cb5edefb925805110329ff0b06a52b5647290e3fad66fccc6c3586d45"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.6"
+        },
+        "sources": [
+            {
+                "name": "pypi-ustc",
+                "url": "https://mirrors.ustc.edu.cn/pypi/web/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {},
+    "develop": {}
+}
