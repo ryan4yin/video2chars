@@ -193,8 +193,11 @@ def get_video_chars(video_path, size, seconds):
 
 def play_audio(video_path):
     def call():
+        # 使用 invoke 库调用本地方法
+        # 之所以不用 subprocess，是因为它没有 hide 属性，调用 mpv 时，即使将输出流重定向了，还是会影响字符画的播放。
         invoke.run(f"mpv --no-video {video_path}", hide=True, warn=True)
 
+    # 这里创建子线程来执行音乐播放指令，因为 invoke.run() 是一个阻塞的方法，要同时播放字符画和音乐的话，就要用多线程/进程。
     p = Thread(target=call)
     p.setDaemon(True)
     p.start()
