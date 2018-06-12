@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-import sys
 
 import numpy as np
 import pickle
@@ -28,10 +27,11 @@ def video2imgs(video_name, size, seconds):
 
     # 帧率
     fps = cap.get(cv2.CAP_PROP_FPS)
+    # 需要提取的帧数
     frames_count = fps * seconds
 
     count = 0
-    # 如果cap对象已经初始化完成了，就返回true，换句话说这是一个 while true 循环
+    # cap.isOpened(): 如果cap对象已经初始化完成了，就返回true
     while cap.isOpened() and count < frames_count:
         # cap.read() 返回值介绍：
         #   ret 表示是否读取到图像
@@ -96,6 +96,7 @@ def play_video(video_chars, frames_rate):
     """
     播放字符视频
     :param video_chars: 字符画的列表，每个元素为一帧
+    :param frames_rate: 帧率
     :return: None
     """
     # 导入需要的模块，这两个模块只有这个函数需要，所以在这里导入了
@@ -167,7 +168,7 @@ def get_video_chars(video_path, size, seconds):
     """
     返回视频对应的字符视频
     """
-    video_dump = get_file_name(video_path) + ".pickle"
+    video_dump = "output/" + get_file_name(video_path) + ".pickle"
 
     # 如果 video_dump 已经存在于当前文件夹，就可以直接读取进来了
     if has_file(".", video_dump):
@@ -207,7 +208,7 @@ def main():
     # 宽，高
     size = (64, 48)
     # 视频路径，换成你自己的
-    video_path = "/home/ryan/Codes/Python/video2chars/BadApple.mp4"
+    video_path = "BadApple.mp4"
     seconds = 30  # 只转换三十秒
     video_chars, fps = get_video_chars(video_path, size, seconds)
 
