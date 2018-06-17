@@ -94,7 +94,7 @@ def imgs2chars(imgs):
 
 def play_video(video_chars, frames_rate):
     """
-    播放字符视频
+    播放字符视频，curses版
     :param video_chars: 字符画的列表，每个元素为一帧
     :param frames_rate: 帧率
     :return: None
@@ -125,6 +125,29 @@ def play_video(video_chars, frames_rate):
         # curses 使用前要初始化，用完后无论有没有异常，都要关闭
         curses.endwin()
     return
+
+
+# def play_video(video_chars, frames_rate):
+#     """
+#     播放字符视频，clear版
+#     :param video_chars: 字符画的列表，每个元素为一帧
+#     :param frames_rate: 帧率
+#     :return: None
+#     """
+#     # 导入需要的模块，这两个模块只有这个函数需要，所以在这里导入了
+#     import time
+#     import subprocess
+#
+#     # 获取字符画的尺寸
+#     width, height = len(video_chars[0][0]), len(video_chars[0])
+#
+#     for pic_i in range(len(video_chars)):
+#         # 显示 pic_i，即第i帧字符画
+#         for line_i in range(height):
+#             # 将pic_i的第i行写入第i列。(line_i, 0)表示从第i行的开头开始写入。最后一个参数设置字符为白色
+#             print(video_chars[pic_i][line_i])
+#         time.sleep(1 / frames_rate)  # 粗略地控制播放速度。
+#         subprocess.call("clear")
 
 
 def dump(obj, file_name):
