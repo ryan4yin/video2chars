@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
 
-import subprocess
-from pathlib import Path
 from time import time
-import logging
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -11,14 +9,11 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 
 
-logger = logging.getLogger(__name__)
-
-
 class Video2Chars:
     # 像素形状，因为颜色已经用rgb控制了，这里的pixels其实可以随意排
     pixels = "$#@&%ZYXWVUTSRQPONMLKJIHGFEDCBA098765432?][}{/)(><zyxwvutsrqponmlkjihgfedcba*+1-."
 
-    def __init__(self, video_path, fps_for_chars=8, time_interval=None):
+    def __init__(self, video_path, fps_for_chars=10, time_interval=None):
         """
 
         :param video_path: 字符串, 视频文件的路径
@@ -44,7 +39,7 @@ class Video2Chars:
         self.time_interval = time_interval
 
         # 字体相关
-        self.font = ImageFont.truetype("res/DroidSansMono.ttf", size=14)  # 使用等宽字体
+        self.font = ImageFont.truetype("DroidSansMono.ttf", size=14)  # 使用等宽字体
         self.font_size = self.font.getsize("a")[0]  # 等宽字体的宽高都一样
 
         # 产生的视频的宽高（以像素记）
@@ -119,7 +114,7 @@ class Video2Chars:
         for i in self.get_frame_pos():
             ret, frame = self.get_img_by_pos(i)
             if not ret:
-                logger.error("读取失败，跳出循环")
+                print("读取失败，跳出循环")
                 break
 
             yield frame  # 惰性求值
@@ -165,7 +160,7 @@ class Video2Chars:
                                       frameSize=self.img_chars_size)
 
         if not videowriter.isOpened():
-            logger.error("error, 无法写入")
+            print("error, 无法写入")
 
         i = 0
         time_start = time()
@@ -173,39 +168,10 @@ class Video2Chars:
             img_chars = self.get_chars_img(img)
             videowriter.write(img_chars)
 
-            if i % 20:
+            if i % 50:
                 print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
 
             i += 1
-
         videowriter.release()
 
-
-def extract_mp3_from_video(video_path):
-    """调用ffmpeg获取mp3音频文件"""
-    mp3_path = video_path.with_suffix('.mp3')
-    subprocess.call(f'ffmpeg -i {str(video_path)} -f mp3 {str(mp3_path)}', shell=True)
-
-    return mp3_path
-
-
-def merge_video_and_audio(video_path, audio_path, output_name):
-    """合成视频"""
-    subprocess.call(f'ffmpeg -i {str(video_path)} -i mp3 {str(audio_path)} -strict -2 -f mp4 {output_name}', shell=True)
-
-
-def main():
-    # 视频路径，换成你自己的
-    video_path = "/home/ryan/Codes/Python/video2chars/resources/happy.mp4"
-
-    video2chars = Video2Chars(video_path, fps_for_chars=8, time_interval=(0, 60))
-    video2chars.set_width(120)
-
-    video2chars.write_to_file("test.mp4")
-
-    mp3_path = extract_mp3_from_video(Path(video_path))
-    merge_video_and_audio("test.mp4", mp3_path, "output.mp4")
-
-
-if __name__ == '__main__':
-    main()
+        print("转换完毕")

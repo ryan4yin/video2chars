@@ -6,8 +6,8 @@ name = "pypi-ustc"
 [packages]
 opencv-python = "*"
 numpy = "*"
-invoke = "*"
 pillow = "*"
+click = "*"
 
 [dev-packages]
 
