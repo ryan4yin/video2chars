@@ -1,226 +1,211 @@
 # -*- coding:utf-8 -*-
+
+import subprocess
 from pathlib import Path
+from time import time
+import logging
 
+import cv2
 import numpy as np
-import pickle
-import invoke
-from threading import Thread
 
-# 用于生成字符画的像素，越往后视觉上越明显。。这是我自己按感觉排的，你可以随意调整。写函数里效率太低，所以只好放全局了
-pixels = " .,-'`:!1+*abcdefghijklmnopqrstuvwxyz<>()\/{}[]?234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ%&@#$"
+from PIL import Image, ImageFont, ImageDraw
 
 
-def video2imgs(video_name, size, seconds):
-    """
+logger = logging.getLogger(__name__)
 
-    :param video_name: 字符串, 视频文件的路径
-    :param size: 二元组，(宽, 高)，用于指定生成的字符画的尺寸
-    :param seconds: 指定需要解码的时长（0-seconds）
-    :return: 一个 img 对象的列表，img对象实际上就是 numpy.ndarray 数组
-    """
-    import cv2  # 导入 opencv
 
-    img_list = []
+class Video2Chars:
+    # 像素形状，因为颜色已经用rgb控制了，这里的pixels其实可以随意排
+    pixels = "$#@&%ZYXWVUTSRQPONMLKJIHGFEDCBA098765432?][}{/)(><zyxwvutsrqponmlkjihgfedcba*+1-."
 
-    # 从指定文件创建一个VideoCapture对象
-    cap = cv2.VideoCapture(video_name)
+    def __init__(self, video_path, fps_for_chars=8, time_interval=None):
+        """
 
-    # 帧率
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    # 需要提取的帧数
-    frames_count = fps * seconds
+        :param video_path: 字符串, 视频文件的路径
+        :param fps_for_chars: 生成的html的帧率
+        :param time_interval: 用于截取视频（开始时间，结束时间）单位秒
+        """
+        self.video_path = Path(video_path)
 
-    count = 0
-    # cap.isOpened(): 如果cap对象已经初始化完成了，就返回true
-    while cap.isOpened() and count < frames_count:
-        # cap.read() 返回值介绍：
-        #   ret 表示是否读取到图像
-        #   frame 为图像矩阵，类型为 numpy.ndarry.
-        ret, frame = cap.read()
-        if ret:
-            # 转换成灰度图，也可不做这一步，转换成彩色字符视频。
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # 从指定文件创建一个VideoCapture对象
+        self.cap = cv2.VideoCapture(video_path)
 
-            # resize 图片，保证图片转换成字符画后，能完整地在命令行中显示。
-            img = cv2.resize(gray, size, interpolation=cv2.INTER_AREA)
+        self.width = self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        self.height = self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        self.frames_count_all = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        self.fps = self.cap.get(cv2.CAP_PROP_FPS)
 
-            # 分帧保存转换结果
-            img_list.append(img)
+        # 产生的视频的宽高（以字符记）
+        self.chars_width = self.width
+        self.chars_height = self.height
+        self.frames_count = 0
 
-            count += 1
+        self.fps_for_chars = fps_for_chars
+        self.time_interval = time_interval
+
+        # 字体相关
+        self.font = ImageFont.truetype("res/DroidSansMono.ttf", size=14)  # 使用等宽字体
+        self.font_size = self.font.getsize("a")[0]  # 等宽字体的宽高都一样
+
+        # 产生的视频的宽高（以像素记）
+        self.img_chars_size = int(self.chars_width * self.font_size), int(self.chars_height * self.font_size)
+
+    def set_width(self, width):
+        """只能缩小，而且始终保持长宽比"""
+        if width >= self.width:
+            return False
         else:
-            break
+            self.chars_width = width
+            self.chars_height = int(self.height * (width / self.width))
+            self.img_chars_size = int(self.chars_width * self.font_size), int(self.chars_height * self.font_size)
+            return True
 
-    # 结束时要释放空间
-    cap.release()
+    def set_height(self, height):
+        """只能缩小，而且始终保持长宽比"""
+        if height >= self.height:
+            return False
+        else:
+            self.chars_height = height
+            self.chars_width = int(self.width * (height / self.height))
+            self.img_chars_size = int(self.chars_width * self.font_size), int(self.chars_height * self.font_size)
+            return True
 
-    return img_list, fps
+    def resize(self, img):
+        """
+        将img转换成需要的大小
+        原则：只缩小，不放大。
+        """
+        # 没指定就不需resize了
+        if self.chars_width == self.width or self.chars_height == self.height:
+            return img
+        else:
+            size = (self.chars_width, self.chars_height)
+            return cv2.resize(img, size, interpolation=cv2.INTER_CUBIC)
 
+    def get_img_by_pos(self, pos):
+        """获取到指定位置的帧"""
+        # 把指针移动到指定帧的位置
+        self.cap.set(cv2.CAP_PROP_POS_FRAMES, pos)
 
-def img2chars(img):
-    res = []
-    """
+        # cap.read() 返回值介绍：
+        #   ret 布尔值，表示是否读取到图像
+        #   frame 为图像矩阵，类型为 numpy.ndarray.
+        ret, frame = self.cap.read()
 
-    :param img: numpy.ndarray, 图像矩阵
-    :return: 字符串的列表：图像对应的字符画，其每一行对应图像的一行像素
-    """
+        return ret, frame
 
-    # 要注意这里的顺序和 之前的 size 刚好相反
-    height, width = img.shape
-    for row in range(height):
-        line = ""
-        for col in range(width):
-            # 灰度是用8位表示的，最大值为255。
-            # 这里将灰度转换到0-1之间
-            percent = img[row][col] / 255
+    def get_frame_pos(self):
+        """生成需要获取的帧的位置，使用了惰性求值"""
+        step = self.fps / self.fps_for_chars
 
-            # 将灰度值进一步转换到 0 到 (len(pixels) - 1) 之间，这样就和 pixels 里的字符对应起来了
-            index = int(percent * (len(pixels) - 1))
+        # 如果未指定
+        if not self.time_interval:
+            self.frames_count = int(self.frames_count_all / step)  # 更新count
+            return (int(step * i) for i in range(self.frames_count))
 
-            # 添加字符像素（最后面加一个空格，是因为命令行有行距却没几乎有字符间距，用空格当间距）
-            line += pixels[index] + " "
-        res.append(line)
+        # 如果指定了
+        start, end = self.time_interval
 
-    return res
+        pos_start = int(self.fps * start)
+        pos_end = int(self.fps * end)
 
+        self.frames_count = int((pos_end - pos_start) / step)  # 更新count
 
-def imgs2chars(imgs):
-    video_chars = []
-    for img in imgs:
-        video_chars.append(img2chars(img))
+        return (pos_start + int(step * i) for i in range(self.frames_count))
 
-    return video_chars
+    def get_imgs(self):
+        assert self.cap.isOpened()
 
+        for i in self.get_frame_pos():
+            ret, frame = self.get_img_by_pos(i)
+            if not ret:
+                logger.error("读取失败，跳出循环")
+                break
 
-def play_video(video_chars, frames_rate):
-    """
-    播放字符视频，curses版
-    :param video_chars: 字符画的列表，每个元素为一帧
-    :param frames_rate: 帧率
-    :return: None
-    """
-    # 导入需要的模块（放这里是为了演示，建议移出去）
-    import time
-    import curses
+            yield frame  # 惰性求值
 
-    # 获取字符画的尺寸
-    width, height = len(video_chars[0][0]), len(video_chars[0])
+        # 结束时要释放空间
+        self.cap.release()
 
-    # 初始化curses，这个是必须的，直接抄就行
-    stdscr = curses.initscr()
-    curses.start_color()
-    try:
-        # 调整窗口大小，宽度最好略大于字符画宽度。另外注意curses的height和width的顺序
-        stdscr.resize(height, width * 2)
+    def get_char(self, gray):
+        percent = gray / 255  # 转换到 0-1 之间
+        index = int(percent * (len(self.pixels) - 1))  # 拿到index
+        return self.pixels[index]
 
-        for pic_i in range(len(video_chars)):
-            # 显示 pic_i，即第i帧字符画
-            for line_i in range(height):
-                # 将pic_i的第i行写入第i列。(line_i, 0)表示从第i行的开头开始写入。最后一个参数设置字符为白色
-                stdscr.addstr(line_i, 0, video_chars[pic_i][line_i], curses.COLOR_WHITE)
-            stdscr.refresh()  # 写入后需要refresh才会立即更新界面
+    def get_chars_img(self, img):
+        """将图片转换为字符画"""
 
-            time.sleep(1 / frames_rate)  # 粗略地控制播放速度。
-    finally:
-        # curses 使用前要初始化，用完后无论有没有异常，都要关闭
-        curses.endwin()
-    return
+        # 先调整大小
+        img = self.resize(img)
 
+        # 新建画布
+        img_chars = Image.new("RGB", self.img_chars_size, color="white")
+        brush = ImageDraw.Draw(img_chars)  # 画笔
 
-# def play_video(video_chars, frames_rate):
-#     """
-#     播放字符视频，clear版
-#     :param video_chars: 字符画的列表，每个元素为一帧
-#     :param frames_rate: 帧率
-#     :return: None
-#     """
-#     # 导入需要的模块（放这里是为了演示，建议移出去）
-#     import time
-#     import subprocess
-#
-#     # 获取字符画的尺寸
-#     width, height = len(video_chars[0][0]), len(video_chars[0])
-#
-#     for pic_i in range(len(video_chars)):
-#         # 显示 pic_i，即第i帧字符画
-#         for line_i in range(height):
-#             # 将pic_i的第i行写入第i列。
-#             print(video_chars[pic_i][line_i])
-#         time.sleep(1 / frames_rate)  # 粗略地控制播放速度。
-#         subprocess.call("clear")
+        # 转换成灰度图，用来选择合适的字符
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+        for y in range(self.chars_height):
+            for x in range(self.chars_width):
+                b, g, r = img[y][x]  # 注意是bgr，不是rgb
+                gray = img_gray[y][x]
+                char = self.get_char(gray)
 
-def dump(obj, file_name):
-    """
-    将指定对象，以file_nam为名，保存到本地
-    """
-    with open(file_name, 'wb') as f:
-        pickle.dump(obj, f)
-    return
+                position = x * self.font_size, y * self.font_size  # x 横坐标（宽），y纵坐标（高，而且向下为正）
+                brush.text(position, char, fill=(r, g, b), font=self.font)
 
+        return cv2.cvtColor(np.array(img_chars), cv2.COLOR_RGB2BGR)  # 转换色彩空间
 
-def load(filename):
-    """
-    从当前文件夹的指定文件中load对象
-    """
-    with open(filename, 'rb') as f:
-        return pickle.load(f)
+    def write_to_file(self, filename):
+        """写入文件"""
+        videowriter = cv2.VideoWriter(filename=filename,
+                                      apiPreference=cv2.CAP_ANY,
+                                      fourcc=cv2.VideoWriter_fourcc(*"mp4v"),  # 4字符的 编解码器代码. (mjpg 可用于 mp4)
+                                      fps=self.fps_for_chars,
+                                      frameSize=self.img_chars_size)
 
+        if not videowriter.isOpened():
+            logger.error("error, 无法写入")
 
-def get_video_chars(video_path, size, seconds):
-    """
-    返回视频对应的字符视频
-    """
-    video_dump = Path(video_path).with_suffix(".pickle").name
+        i = 0
+        time_start = time()
+        for img in self.get_imgs():
+            img_chars = self.get_chars_img(img)
+            videowriter.write(img_chars)
 
-    # 如果 video_dump 已经存在于当前文件夹，就可以直接读取进来了
-    if Path(video_dump).exists():
-        print("发现该视频的转换缓存，直接读取")
-        video_chars, fps = load(video_dump)
-    else:
-        print("未发现缓存，开始字符视频转换")
+            if i % 20:
+                print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
 
-        print("开始逐帧读取")
-        # 视频转字符动画
-        imgs, fps = video2imgs(video_path, size, seconds)
+            i += 1
 
-        print("视频已全部转换到图像， 开始逐帧转换为字符画")
-        video_chars = imgs2chars(imgs)
-
-        print("转换完成，开始缓存结果")
-        # 把[video_chars, fps]保存下来
-        dump([video_chars, fps], video_dump)
-        print("缓存完毕")
-
-    return video_chars, fps
+        videowriter.release()
 
 
-def play_audio(video_path):
-    def call():
-        # 使用 invoke 库调用本地方法
-        # 之所以不用 subprocess，是因为它没有 hide 属性，调用 mpv 时，即使将输出流重定向了，还是会影响字符画的播放。
-        invoke.run(f"mpv --no-video {video_path}", hide=True, warn=True)
+def extract_mp3_from_video(video_path):
+    """调用ffmpeg获取mp3音频文件"""
+    mp3_path = video_path.with_suffix('.mp3')
+    subprocess.call(f'ffmpeg -i {str(video_path)} -f mp3 {str(mp3_path)}', shell=True)
 
-    # 这里创建子线程来执行音乐播放指令，因为 invoke.run() 是一个阻塞的方法，要同时播放字符画和音乐的话，就要用多线程/进程。
-    p = Thread(target=call)
-    p.setDaemon(True)
-    p.start()
+    return mp3_path
+
+
+def merge_video_and_audio(video_path, audio_path, output_name):
+    """合成视频"""
+    subprocess.call(f'ffmpeg -i {str(video_path)} -i mp3 {str(audio_path)} -strict -2 -f mp4 {output_name}', shell=True)
 
 
 def main():
-    # 宽，高
-    size = (64, 48)
     # 视频路径，换成你自己的
-    video_path = "resources/BadApple.mp4"
-    seconds = 30  # 只转换三十秒
-    video_chars, fps = get_video_chars(video_path, size, seconds)
+    video_path = "/home/ryan/Codes/Python/video2chars/resources/happy.mp4"
 
-    # 播放音轨
-    play_audio(video_path)
+    video2chars = Video2Chars(video_path, fps_for_chars=8, time_interval=(0, 60))
+    video2chars.set_width(120)
 
-    # 播放视频
-    play_video(video_chars, fps)
+    video2chars.write_to_file("test.mp4")
+
+    mp3_path = extract_mp3_from_video(Path(video_path))
+    merge_video_and_audio("test.mp4", mp3_path, "output.mp4")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

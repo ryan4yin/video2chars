@@ -9,8 +9,6 @@ import numpy as np
 
 from time import time
 
-import webbrowser
-
 play_chars_js = '''
 let i = 0;
 window.setInterval(function(){
@@ -148,7 +146,7 @@ class VideoToHtml:
         return self.pixels[index]
 
     def get_json_pic(self, img):
-        """测试阶段，不实用"""
+        """json 格式的矩阵"""
 
         json_pic = []
 
@@ -161,7 +159,7 @@ class VideoToHtml:
         for y in range(height):
             line = []
             for x in range(width):
-                r, g, b = img[y][x]
+                b, g, r = img[y][x]  # 注意是bgr，不是rgb
                 gray = img_gray[y][x]
                 char = self.get_char(gray)
 
@@ -172,7 +170,7 @@ class VideoToHtml:
         return json.dumps(json_pic)
 
     def write_html_with_json(self, file_name):
-        """测试阶段，不实用"""
+        """生成数据并写入html"""
         mp3_path = self.video2mp3()
 
         time_start = time()
