@@ -96,7 +96,7 @@ class VideoToHtml:
 
     def get_frame_pos(self):
         """生成需要获取的帧的位置，使用了惰性求值"""
-        step = int(self.fps / self.fps_for_html)
+        step = self.fps / self.fps_for_html
 
         # 如果未指定
         if not self.time_interval:
@@ -110,7 +110,8 @@ class VideoToHtml:
         pos_end = int(self.fps * end)
 
         self.frames_count = int((pos_end - pos_start) / step)  # 更新count
-        return range(pos_start, pos_end, step)
+
+        return (pos_start + int(step * i) for i in range(self.frames_count))
 
     def get_imgs(self):
         assert self.cap.isOpened()
@@ -209,10 +210,10 @@ class VideoToHtml:
 
                     i += 1
             finally:
-                html.write('];'
-                           f'var fps={self.fps_for_html};'
+                html.write('];\n\n'
+                           f'var fps={self.fps_for_html};\n'
                            f'{play_chars_js}'
-                           '</script>'
+                           '</script>\n'
                            '</html>')
 
 
@@ -234,7 +235,7 @@ def main():
     video_path = "BadApple.mp4"
     # video_path = "BadApple.mp4"
 
-    video2html = VideoToHtml(video_path, fps_for_html=5, time_interval=(20, 30))
+    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(65, 95))
     video2html.set_width(100)
 
     html_name = get_file_name(video_path) + ".html"
