@@ -27,7 +27,7 @@ window.setInterval(function(){
 
 
 class VideoToHtml:
-    # 灰度是数越小越白
+    # 灰度, 数越小越白
     pixels = ".,:!+mw1I?2354KE%8B&$WM@#"
 
     def __init__(self, video_path, fps_for_html=8, time_interval=None):
@@ -83,6 +83,7 @@ class VideoToHtml:
             return cv2.resize(img, size, interpolation=cv2.INTER_AREA)
 
     def get_img_by_pos(self, pos):
+        """获取到指定位置的帧"""
         # 把指针移动到指定帧的位置
         self.cap.set(cv2.CAP_PROP_POS_FRAMES, pos)
 
