@@ -17,7 +17,7 @@ window.setInterval(function(){
     for(let line of img){
         for(let char of line){
             let [[r,g,b], ch] = char;
-            line += '<span style="color:rgb(' + r + ', ' + g + ', '+ b + ');">'+ ch + '</span>'
+            html += '<span style="color:rgb(' + r + ', ' + g + ', '+ b + ');">'+ ch + '</span>'
         }
         html += "<br>"
     }
@@ -131,9 +131,6 @@ class VideoToHtml:
         index = int(percent * (len(self.pixels) - 1))  # 拿到index
         return self.pixels[index]
 
-    def get_pix_html(self, r, g, b, gray):
-        char = self.get_char(gray)
-
     def get_html_pic(self, img, img_id):
         """
         将给定的img转换成html字符画
@@ -164,32 +161,6 @@ class VideoToHtml:
 
         return "".join(html_pic)
 
-    def write_html(self, file_name):
-        time_start = time()
-        with open(file_name, 'w') as html:
-            # 要记得设置monospace等宽字体，不然没法玩
-            # 行距0.75是因为等宽字体，有一定宽高比，所以要平衡一下
-            html.write('<!DOCTYPE html><html>'
-                       f'<script>window.fps = {self.fps_for_html};</script>'
-                       '<script src="play_chars.js"></script>'
-                       '<body style="font-family: monospace;font-size: xx-small;'
-                       'text-align: center;line-height: 0.75;font-weight: bolder;">'
-                       )
-
-            try:
-                i = 0
-                for img in self.get_imgs():
-                    html_pic = self.get_html_pic(img, i)
-                    html.write(html_pic)
-
-                    if i % 30:
-                        print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
-
-                    i += 1
-            finally:
-                html.write("</body>"
-                           "</html>")
-
     def get_json_pic(self, img):
         """测试阶段，不实用"""
 
@@ -216,6 +187,7 @@ class VideoToHtml:
 
     def write_html_with_json(self, file_name):
         """测试阶段，不实用"""
+        time_start = time()
 
         with open(file_name, 'w') as html:
             # 要记得设置monospace等宽字体，不然没法玩
@@ -233,7 +205,7 @@ class VideoToHtml:
                     html.write(f"{json_pic},\n")
 
                     if i % 20:
-                        print(f"进度：{i/self.frames_count * 100:.2f}%")
+                        print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
 
                     i += 1
             finally:
@@ -259,14 +231,14 @@ def get_file_name(file_path):
 
 def main():
     # 视频路径，换成你自己的
-    video_path = "/home/ryan/Downloads/HorribleSubs+Golden+Kamuy+02+1080p.mp4"
+    video_path = "BadApple.mp4"
     # video_path = "BadApple.mp4"
 
     video2html = VideoToHtml(video_path, fps_for_html=5, time_interval=(20, 30))
     video2html.set_width(100)
 
-    html_name = "output/" + get_file_name(video_path) + ".html"
-    # video2html.write_html(html_name)
+    html_name = get_file_name(video_path) + ".html"
+    video2html.write_html_with_json(html_name)
 
     webbrowser.open(html_name)
 
