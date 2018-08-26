@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import os
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -210,38 +211,22 @@ class VideoToHtml:
 
                     i += 1
             finally:
-                html.write('];\n\n'
-                           f'var fps={self.fps_for_html};\n'
+                html.write('\n];\n'
+                           f'let fps={self.fps_for_html};\n'
                            f'{play_chars_js}'
                            '</script>\n'
                            '</html>')
 
 
-def get_file_name(file_path):
-    """
-    从文件路径中提取出不带拓展名的文件名
-    """
-    # 从文件路径获取文件名 _name
-    path, file_name_with_extension = os.path.split(file_path)
-
-    # 拿到文件名前缀
-    file_name, file_extension = os.path.splitext(file_name_with_extension)
-
-    return file_name
-
-
 def main():
     # 视频路径，换成你自己的
-    video_path = "BadApple.mp4"
-    # video_path = "BadApple.mp4"
+    video_path = "resources/BadApple.mp4"
 
     video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(65, 95))
     video2html.set_width(100)
 
-    html_name = get_file_name(video_path) + ".html"
+    html_name = Path(video_path).with_suffix(".html").name
     video2html.write_html_with_json(html_name)
-
-    webbrowser.open(html_name)
 
 
 if __name__ == "__main__":

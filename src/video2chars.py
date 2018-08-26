@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
+from pathlib import Path
 
 import numpy as np
 import pickle
-import os
 import invoke
 from threading import Thread
 
@@ -167,34 +167,14 @@ def load(filename):
         return pickle.load(f)
 
 
-def get_file_name(file_path):
-    """
-    从文件路径中提取出不带拓展名的文件名
-    """
-    # 从文件路径获取文件名 _name
-    path, file_name_with_extension = os.path.split(file_path)
-
-    # 拿到文件名前缀
-    file_name, file_extension = os.path.splitext(file_name_with_extension)
-
-    return file_name
-
-
-def has_file(path, file_name):
-    """
-    判断指定目录下，是否存在某文件
-    """
-    return file_name in os.listdir(path)
-
-
 def get_video_chars(video_path, size, seconds):
     """
     返回视频对应的字符视频
     """
-    video_dump = "output/" + get_file_name(video_path) + ".pickle"
+    video_dump = Path(video_path).with_suffix(".pickle").name
 
     # 如果 video_dump 已经存在于当前文件夹，就可以直接读取进来了
-    if has_file(".", video_dump):
+    if Path(video_dump).exists():
         print("发现该视频的转换缓存，直接读取")
         video_chars, fps = load(video_dump)
     else:
@@ -231,7 +211,7 @@ def main():
     # 宽，高
     size = (64, 48)
     # 视频路径，换成你自己的
-    video_path = "BadApple.mp4"
+    video_path = "resources/BadApple.mp4"
     seconds = 30  # 只转换三十秒
     video_chars, fps = get_video_chars(video_path, size, seconds)
 
