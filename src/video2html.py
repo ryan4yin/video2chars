@@ -29,8 +29,8 @@ window.setInterval(function(){
 
 
 class VideoToHtml:
-    # 灰度, 数越小越白
-    pixels = " .,:!+mw1I?2354KE%8B&$WM@#"
+    # 灰度, 数越小越黑（html会忽略空格, 所以不用空格）
+    pixels = "#@$&%WX8wmxetsp*d+onjic1!:`'-,."
 
     def __init__(self, video_path, fps_for_html=8, time_interval=None):
         """
@@ -193,8 +193,8 @@ def main():
     # 视频路径，换成你自己的
     video_path = "resources/m2.mp4"
 
-    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(30, 32))
-    video2html.set_width(60)
+    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(66, 75))
+    video2html.set_width(100)
 
     html_name = Path(video_path).with_suffix(".html").name
     video2html.write_html_with_json(html_name)
