@@ -7,5 +7,5 @@
 1. shell 版效果图：
 ![bad-apple-chars-gif](./gif/bad-apple-chars.gif)
 
-2.  html 版效果图：（待完成）
+2.  html 版效果图：
 ![bad-apple-html-gif](./gif/bad-apple-html.gif)
