@@ -19,6 +19,7 @@ window.setInterval(function(){
         for(let char of line){
             let [[r,g,b], ch] = char;
             html += '<span style="color:rgb(' + r + ', ' + g + ', '+ b + ');">'+ ch + '</span>'
+            // html += '<span style="background-color:rgb(' + r + ', ' + g + ', '+ b + ');">'+ ch + '</span>'
         }
         html += "<br>"
     }
@@ -29,7 +30,7 @@ window.setInterval(function(){
 
 class VideoToHtml:
     # 灰度, 数越小越白
-    pixels = ".,:!+mw1I?2354KE%8B&$WM@#"
+    pixels = " .,:!+mw1I?2354KE%8B&$WM@#"
 
     def __init__(self, video_path, fps_for_html=8, time_interval=None):
         """
@@ -81,7 +82,7 @@ class VideoToHtml:
             return img
         else:
             size = (self.resize_width, self.resize_height)
-            return cv2.resize(img, size, interpolation=cv2.INTER_AREA)
+            return cv2.resize(img, size, interpolation=cv2.INTER_CUBIC)
 
     def get_img_by_pos(self, pos):
         """获取到指定位置的帧"""
@@ -133,36 +134,6 @@ class VideoToHtml:
         index = int(percent * (len(self.pixels) - 1))  # 拿到index
         return self.pixels[index]
 
-    def get_html_pic(self, img, img_id):
-        """
-        将给定的img转换成html字符画
-        :return: 一个div
-        """
-        hidden = 'hidden="hidden"' if img_id != 0 else ''
-        html_pic = [f'<div id="f-{img_id}" {hidden}>']
-
-        # 宽高刚好和size相反，要注意。（这是numpy的特性。。）
-        height, width, channel = img.shape
-
-        # 转换成灰度图，用来选择合适的字符
-        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        for y in range(height):
-            for x in range(width):
-                r, g, b = img[y][x]
-                gray = img_gray[y][x]
-
-                # 这里字符是灰度，rgb是背景色background-color
-                pixel_char = f'<span style="background-color:rgb({r}, {g}, {b})">&nbsp</span>'
-
-                html_pic.append(pixel_char)
-
-            html_pic.append("<br>")  # 换行
-
-        html_pic.append('</div>')
-
-        return "".join(html_pic)
-
     def get_json_pic(self, img):
         """测试阶段，不实用"""
 
@@ -195,7 +166,7 @@ class VideoToHtml:
             # 要记得设置monospace等宽字体，不然没法玩
             html.write('<!DOCTYPE html>'
                        '<html>'
-                       '<body style="font-family: monospace;font-size: xx-small;text-align: center;line-height: 0.7;">'
+                       '<body style="font-family: monospace; font-size: small; font-weight: bold; text-align: center; line-height: 0.8;">'
                        '</body>'
                        '<script>'
                        'var frames=[\n')
@@ -220,10 +191,10 @@ class VideoToHtml:
 
 def main():
     # 视频路径，换成你自己的
-    video_path = "resources/BadApple.mp4"
+    video_path = "resources/m2.mp4"
 
-    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(65, 95))
-    video2html.set_width(100)
+    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(30, 32))
+    video2html.set_width(60)
 
     html_name = Path(video_path).with_suffix(".html").name
     video2html.write_html_with_json(html_name)
