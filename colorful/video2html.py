@@ -203,7 +203,7 @@ class VideoToHtml:
                 i = 0
                 for img in self.get_imgs():
                     json_pic = self.get_json_pic(img)
-                    html.write(f"{json_pic},\n")
+                    html.write(f"{json_pic},")
 
                     if i % 20:
                         print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
