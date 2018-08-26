@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import os
+import subprocess
 from pathlib import Path
 
 import cv2
@@ -23,14 +24,17 @@ window.setInterval(function(){
         }
         html += "<br>"
     }
-    document.body.innerHTML = html;
+    
+    document.getElementsByClassName("video-panel")[0].innerHTML = html
 }, 1000/fps);
+
+document.getElementsByTagName("audio")[0].play();
 '''
 
 
 class VideoToHtml:
-    # 灰度, 数越小越黑（html会忽略空格, 所以不用空格）
-    pixels = "#@$&%WX8wmxetsp*d+onjic1!:`'-,."
+    # 像素形状，因为颜色已经用rgb控制了，这里的pixels其实可以随意排
+    pixels = "$#@&%ZYXWVUTSRQPONMLKJIHGFEDCBA098765432?][}{/)(><zyxwvutsrqponmlkjihgfedcba*+1-."
 
     def __init__(self, video_path, fps_for_html=8, time_interval=None):
         """
@@ -39,6 +43,8 @@ class VideoToHtml:
         :param fps_for_html: 生成的html的帧率
         :param time_interval: 用于截取视频（开始时间，结束时间）单位秒
         """
+        self.video_path = Path(video_path)
+
         # 从指定文件创建一个VideoCapture对象
         self.cap = cv2.VideoCapture(video_path)
 
@@ -53,6 +59,13 @@ class VideoToHtml:
 
         self.fps_for_html = fps_for_html
         self.time_interval = time_interval
+
+    def video2mp3(self):
+        """#调用ffmpeg获取mp3音频文件"""
+        mp3_path = self.video_path.with_suffix('.mp3')
+        subprocess.call('ffmpeg -i ' + str(self.video_path) + ' -f mp3 ' + str(mp3_path), shell=True)
+
+        return mp3_path
 
     def set_width(self, width):
         """只能缩小，而且始终保持长宽比"""
@@ -103,7 +116,7 @@ class VideoToHtml:
         # 如果未指定
         if not self.time_interval:
             self.frames_count = int(self.frames_count_all / step)  # 更新count
-            return range(0, self.frames_count_all, step)
+            return (int(step * i) for i in range(self.frames_count))
 
         # 如果指定了
         start, end = self.time_interval
@@ -160,6 +173,8 @@ class VideoToHtml:
 
     def write_html_with_json(self, file_name):
         """测试阶段，不实用"""
+        mp3_path = self.video2mp3()
+
         time_start = time()
 
         with open(file_name, 'w') as html:
@@ -167,6 +182,8 @@ class VideoToHtml:
             html.write('<!DOCTYPE html>'
                        '<html>'
                        '<body style="font-family: monospace; font-size: small; font-weight: bold; text-align: center; line-height: 0.8;">'
+                       '<div class="video-panel"></div>'
+                       f'<audio src="{mp3_path.name}" autoplay controls></audio>'
                        '</body>'
                        '<script>'
                        'var frames=[\n')
@@ -191,10 +208,10 @@ class VideoToHtml:
 
 def main():
     # 视频路径，换成你自己的
-    video_path = "resources/m2.mp4"
+    video_path = "resources/happy.mp4"
 
-    video2html = VideoToHtml(video_path, fps_for_html=8, time_interval=(66, 75))
-    video2html.set_width(100)
+    video2html = VideoToHtml(video_path, fps_for_html=8)
+    video2html.set_width(120)
 
     html_name = Path(video_path).with_suffix(".html").name
     video2html.write_html_with_json(html_name)
