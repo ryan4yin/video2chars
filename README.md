@@ -4,7 +4,7 @@
 
 ## 进度
 
-已经实现了[彩色字符画](video2html.py)，但是效率欠佳。。
+已经实现了[彩色字符画](colorful/video2html.py)，但是效率欠佳。。
 
 ## 效果
 ![bad-apple-chars-gif](./gif/bad-apple-chars.gif)
