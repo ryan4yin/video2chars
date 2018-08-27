@@ -114,7 +114,7 @@ class Video2Chars:
         for i in self.get_frame_pos():
             ret, frame = self.get_img_by_pos(i)
             if not ret:
-                print("读取失败，跳出循环")
+                print("read failed，stop get_imgs()")
                 break
 
             yield frame  # 惰性求值
@@ -160,7 +160,7 @@ class Video2Chars:
                                       frameSize=self.img_chars_size)
 
         if not videowriter.isOpened():
-            print("error, 无法写入")
+            print("error, cannot open videowriter!")
 
         i = 0
         time_start = time()
@@ -169,9 +169,7 @@ class Video2Chars:
             videowriter.write(img_chars)
 
             if i % 50:
-                print(f"进度：{i/self.frames_count * 100:.2f}%, 已用时：{time() - time_start:.2f}")
+                print(f"Progress：{i/self.frames_count * 100:.2f}%, Used time：{time() - time_start:.2f}")
 
             i += 1
         videowriter.release()
-
-        print("转换完毕")

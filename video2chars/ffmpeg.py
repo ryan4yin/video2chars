@@ -13,7 +13,7 @@ def extract_mp3_from_video(video_path):
 def merge_video_and_audio(video_path, audio_path, output_name):
     """合成视频，并删除中间文件"""
     subprocess.call(f'ffmpeg -i {str(video_path)} -i {str(audio_path)} -strict -2 -f mp4 {str(output_name)} -y', shell=True)
-    print("音频合成完毕，开始删除中间文件")
+    print("finish merge!")
 
     subprocess.call(["rm", str(video_path), str(audio_path)])
-    print("完成！")
+    print(f"clean cache! complete! your character art animation: {output_name}, have fun~")
