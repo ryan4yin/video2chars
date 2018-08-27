@@ -6,7 +6,7 @@ Convert video to character art animation.
 
 ## Install
 
->p.s. only test on linux
+>p.s. Tested only on linux
 
 First you need to make sure that you can use `ffmpeg` in shell.
 Typical desktop linux distributions come with it. If not, install ffmpeg first.
