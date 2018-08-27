@@ -40,7 +40,7 @@ class Video2Chars:
 
         # 字体相关
         self.font = ImageFont.truetype("DroidSansMono.ttf", size=14)  # 使用等宽字体
-        self.font_size = self.font.getsize("a")[0]  # 等宽字体的宽高都一样
+        self.font_size = self.font.getsize("a")[0]  # 等宽字体的宽高都一样(TODO 好像不对)
 
         # 产生的视频的宽高（以像素记）
         self.img_chars_size = int(self.chars_width * self.font_size), int(self.chars_height * self.font_size)
@@ -151,7 +151,7 @@ class Video2Chars:
 
         return cv2.cvtColor(np.array(img_chars), cv2.COLOR_RGB2BGR)  # 转换色彩空间
 
-    def write_to_file(self, filename):
+    def write_to_file(self, filename: str):
         """写入文件"""
         videowriter = cv2.VideoWriter(filename=filename,
                                       apiPreference=cv2.CAP_ANY,
