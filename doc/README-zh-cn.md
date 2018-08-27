@@ -17,8 +17,11 @@ eg:
 ```
 video2chars --duration 30 --width 120
 ```
+命令运行完毕后，会在当前目录下生成一个名为 `outpu.mp4` 的字符视频。
 
 使用 `video2chars --help` 命令，获取更多信息。
+
+>p.s. 注意性能，python 单核跑的，慢也没办法。。默认参数 width=80 fps=8。
 
 ## 演示
 
