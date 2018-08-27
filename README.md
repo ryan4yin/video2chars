@@ -9,6 +9,8 @@ Convert video to character art animation.
 >p.s. only test on linux
 
 First you need to make sure that you can use `ffmpeg` in shell.
+Typical desktop linux distributions come with it. If not, install ffmpeg first.
+
 then install video2chars:
 ```
 pip install video2chars
