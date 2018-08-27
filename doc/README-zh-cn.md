@@ -21,7 +21,7 @@ video2chars --duration 30 --width 120
 
 使用 `video2chars --help` 命令，获取更多信息。
 
->p.s. 注意性能，python 单核跑的，慢也没办法。。默认参数 width=80 fps=8。
+>p.s. 注意性能，python 单核跑的，慢也没办法。。默认参数 width=80 fps=8。实在是慢的话，可以尝试调低一下这两个参数。
 
 ## 演示
 
