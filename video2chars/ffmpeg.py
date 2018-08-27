@@ -16,4 +16,4 @@ def merge_video_and_audio(video_path, audio_path, output_name):
     print("finish merge!")
 
     subprocess.call(["rm", str(video_path), str(audio_path)])
-    print(f"clean cache! complete! your character art animation: {output_name}, have fun~")
+    print(f"clean cache! complete conversion! your character art animation: {output_name}, have fun~")
