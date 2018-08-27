@@ -22,6 +22,9 @@ eg:
 ```
 video2chars --duration 30 --width 120
 ```
+you will see a file named `output.mp4` in your current path when it completes, have fun ~
+
+>p.s. if it's a bit slow, turn down the width and duration, to speed up the conversion. 
 
 check `video2chars --help` for more information.
 
