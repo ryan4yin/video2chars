@@ -32,3 +32,12 @@ check `video2chars --help` for more information.
 ## Demonstration
 
 - [【Python】字符动画 - 极乐净土](https://www.bilibili.com/video/av30469888/)
+
+
+# Older version
+
+[video2chars - v0.3](https://github.com/yuansuye/video2chars/tree/v0.3)
+
+## Article
+
+Shell Version(in Chinese): [视频转字符动画-Python-60行代码](http://www.cnblogs.com/kirito-c/p/5971988.html)
