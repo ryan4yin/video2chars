@@ -8,7 +8,8 @@
 首先你需要确保能够在 shell 中使用 `ffmpeg` 命令。一般的桌面linux发行版都自带的，如果没有，请先安装好 ffmpeg.
 然后使用 pip 安装 video2chars:
 ```
-pip install video2chars
+# 使用清华镜像源加速下载
+pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 ## 用法
