@@ -50,7 +50,7 @@ check `video2chars --help` for more information.
 - [【Python】字符动画 - 极乐净土](https://www.bilibili.com/video/av30469888/)
 
 
-# Older version
+## Older version
 
 [video2chars - v0.3](https://github.com/yuansuye/video2chars/tree/v0.3)
 
