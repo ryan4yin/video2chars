@@ -34,7 +34,6 @@ pip install video2chars
 
 ## Usage
 
-eg: 
 ```
 video2chars --duration 30 --width 120
 ```
