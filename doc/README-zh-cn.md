@@ -32,7 +32,6 @@ pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## 用法
 
-eg: 
 ```
 video2chars --duration 30 --width 120
 ```
