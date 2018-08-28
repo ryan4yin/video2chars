@@ -3,6 +3,8 @@
 from time import time
 from pathlib import Path
 
+from pkg_resources import resource_stream
+
 import cv2
 import numpy as np
 
@@ -39,7 +41,8 @@ class Video2Chars:
         self.time_interval = time_interval
 
         # 字体相关
-        self.font = ImageFont.truetype("DroidSansMono.ttf", size=14)  # 使用等宽字体
+        font_fp = resource_stream("video2chars", "DroidSansMono.ttf")
+        self.font = ImageFont.truetype(font_fp, size=14)  # 使用等宽字体
         self.font_size = sum(self.font.getsize("a"))//2  # 为了保证像素宽高一致，均取宽高的平均值
 
         # 产生的视频的宽高（以像素记）
