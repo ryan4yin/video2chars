@@ -33,7 +33,7 @@ pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ## 用法
 
 ```
-video2chars --duration 30 --width 120
+video2chars --duration 30 --width 120 path_of_video_file
 ```
 命令运行完毕后，会在当前目录下生成一个名为 `outpu.mp4` 的字符视频。
 
