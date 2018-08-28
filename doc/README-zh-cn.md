@@ -5,7 +5,25 @@
 ## 安装
 >p.s. 只在 linux 上测试过
 
-首先你需要确保能够在 shell 中使用 `ffmpeg` 命令。一般的桌面linux发行版都自带的，如果没有，请先安装好 ffmpeg.
+首先你需要确保能够在 shell/powershell 中使用 `ffmpeg` 命令。示例：
+```
+PS C:\> ffmpeg
+ffmpeg version N-91693-g3aacb0d196 Copyright (c) 2000-2018 the FFmpeg developers
+  built with gcc 8.2.1 (GCC) 20180813
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libmfx --enable-amf --enable-ffnvcodec --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth
+  libavutil      56. 19.100 / 56. 19.100
+  libavcodec     58. 25.100 / 58. 25.100
+  libavformat    58. 17.103 / 58. 17.103
+  libavdevice    58.  4.101 / 58.  4.101
+  libavfilter     7. 26.100 /  7. 26.100
+  libswscale      5.  2.100 /  5.  2.100
+  libswresample   3.  2.100 /  3.  2.100
+  libpostproc    55.  2.100 / 55.  2.100
+Hyper fast Audio and Video encoder
+usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...
+```
+一般的桌面linux发行版都自带的，如果没有，请先安装好 [ffmpeg](https://ffmpeg.org/), 并将 bin 目录添加进 PATH.
+
 然后使用 pip 安装 video2chars:
 ```
 # 使用清华镜像源加速下载
