@@ -22,7 +22,7 @@ ffmpeg version N-91693-g3aacb0d196 Copyright (c) 2000-2018 the FFmpeg developers
 Hyper fast Audio and Video encoder
 usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...
 ```
-一般的桌面linux发行版都自带的，如果没有，请先安装好 [ffmpeg](https://ffmpeg.org/), 并将 bin 目录添加进 PATH.
+如果 powershell 输出 '无法将“ffmpeg”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。'，或者 shell 输出 'command not found'，说明你没有安装 ffmpeg. 请先安装好 [ffmpeg](https://ffmpeg.org/), 并将其 bin 目录添加进 PATH. 
 
 然后使用 pip 安装 video2chars:
 ```
