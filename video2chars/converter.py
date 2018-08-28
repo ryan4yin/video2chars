@@ -40,7 +40,7 @@ class Video2Chars:
 
         # 字体相关
         self.font = ImageFont.truetype("DroidSansMono.ttf", size=14)  # 使用等宽字体
-        self.font_size = self.font.getsize("a")[0]  # 等宽字体的宽高都一样(TODO 好像不对)
+        self.font_size = sum(self.font.getsize("a"))//2  # 为了保证像素宽高一致，均取宽高的平均值
 
         # 产生的视频的宽高（以像素记）
         self.img_chars_size = int(self.chars_width * self.font_size), int(self.chars_height * self.font_size)
