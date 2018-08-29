@@ -26,7 +26,7 @@ video2chars --chars_width 120 --t_end 10 path_of_video_file
 The above command shows that the path of the specified video will be converted to a width of 120 characters of video, only 10 seconds before the conversion. 
 you'll see a file named `output.mp4` in your current directory when it completes, have fun ~
 
->p.s. if it's a bit slow, turn down the width and duration, to speed up the conversion. 
+>p.s. if it's a bit slow, turn down the width and fps, to speed up the conversion. 
 
 check `video2chars --help` for more information.
 
