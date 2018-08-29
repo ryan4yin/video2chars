@@ -2,24 +2,27 @@
 
 import click
 
-from .ffmpeg import extract_mp3_from_video, merge_video_and_audio
-from .converter import Video2Chars
+from video2chars.converter import Video2Chars
 
 
 @click.command()
-@click.option("--width", default=80, help='The width of the generated video, in characters, default to 80')
-@click.option("--fps", default=8, help='frames per second, defaults to 8')
-@click.option("--duration", default=0, help="Specify the length of time that the video needs to be converted")
-@click.option("--output", default="output", help='output to a file with this name, default to "output"')
+@click.option("--chars_width", default=80, help='The width of the generated video, in characters, default to 80')
+@click.option("--fps", default=10, help='frames per second, defaults to 10')
+@click.option("--pixels", default=None, type=str, help='the chars sequence used to generate character animation')
+@click.option("--t_start", default=0, help="the start time that the video needs to be converted(in seconds)")
+@click.option("--t_end", default=None, type=int, help="the end time that the video needs to be converted(in seconds)")
+@click.option("--output", default="output.mp4", help='output to a file with this name, default to "output.mp4"')
 @click.argument("filename")
-def convert(filename, width, fps, output, duration):
-    time_interval = (0, duration) if duration else None
-    video_converter = Video2Chars(video_path=filename, fps_for_chars=fps, time_interval=time_interval)
-    video_converter.set_width(width)
+def convert(filename, chars_width, fps, pixels, output, t_start, t_end):
+    converter = Video2Chars(video_path=filename,
+                            fps=fps,
+                            chars_width=chars_width,
+                            t_start=t_start,
+                            t_end=t_end,
+                            pixels=pixels)
 
-    tmp_video_name = "tmp-e6e6.mp4"
-    video_converter.write_to_file(tmp_video_name)
+    clip = converter.generate_chars_video()
+    clip.write_videofile(output)
 
-    tmp_mp3_name = extract_mp3_from_video(filename)
-    merge_video_and_audio(tmp_video_name, tmp_mp3_name, f"{output}.mp4")
+
 
