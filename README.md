@@ -15,9 +15,9 @@ pip install video2chars
 
 ## Usage
 
->P.S. video2chars moviepy, and moviepy depends on the software FFMPEG for video reading and writing. You don’t need to worry about that, 
-as FFMPEG should be automatically downloaded/installed by ImageIO during your first use of video2chars.
-If you want to use a specific version of FFMPEG, you can set the FFMPEG_BINARY environment variable.
+>P.S. `video2chars` depends on `moviepy`, and `moviepy` depends on the software `FFMPEG` for video reading and writing. You don’t need to worry about that, 
+as `FFMPEG` should be automatically downloaded/installed by `ImageIO` during your first use of `video2chars`.
+If you want to use a specific version of `FFMPEG`, you can set the `FFMPEG_BINARY` environment variable.
  See [moviepy/config_defaults.py](https://github.com/Zulko/moviepy/blob/master/moviepy/config_defaults.py) for details.
 
 ```
