@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="video2chars",
-    version="0.6.0",
+    version="0.6.2",
     author="Ryan Yin",
     author_email="xiaoyin_c@qq.com",
     description="Convert video to character art animation.",
@@ -19,7 +19,7 @@ setuptools.setup(
     ],
 
     packages=setuptools.find_packages(),
-    install_requires=['moviepy', 'numpy', 'pillow', 'click'],
+    install_requires=['moviepy', 'numpy', 'pillow', 'click', 'requests'],
 
     package_data={
         "video2chars": ['DroidSansMono.ttf'],
