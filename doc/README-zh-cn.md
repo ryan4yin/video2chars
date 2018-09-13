@@ -13,7 +13,7 @@ pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ## 用法
 
 >P.S. 第一次使用 `video2chars` 命令时，会自动下载 `ffmpeg`，该过程在国内可能比较慢。建议自己手动下载，然后配置好环境变量： `FFMPEG_BINARY`
-具体参见[moviepy 手动指定 ffmpeg 路径](https://github.com/Zulko/moviepy/blob/master/moviepy/config_defaults.py) 
+具体参见 [moviepy 手动指定 ffmpeg 路径](https://github.com/Zulko/moviepy/blob/master/moviepy/config_defaults.py) 
 
 ```
 video2chars --chars_width 120 --t_end 10 path_of_video_file
