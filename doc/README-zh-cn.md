@@ -3,7 +3,6 @@
 这是一个能将视频文件转换成字符动画的命令行工具，使用 pillow + moviepy 实现
 
 ## 安装
->p.s. 只在 linux 上测试过
 
 直接使用 pip 安装 video2chars:
 ```
