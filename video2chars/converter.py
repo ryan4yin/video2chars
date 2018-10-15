@@ -41,6 +41,7 @@ class Video2Chars:
         self.video_size = int(self.chars_width * self.font_width), int(self.chars_height * self.font_width)
 
     def get_char_by_gray(self, gray):
+        """通过灰度值从 pixels 中挑选字符，充当字符动画中的‘像素’"""
         percent = gray / 255  # 转换到 0-1 之间
         index = int(percent * (len(self.pixels) - 1))  # 拿到index
         return self.pixels[index]
