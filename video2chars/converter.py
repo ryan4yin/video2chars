@@ -13,7 +13,9 @@ class Video2Chars:
         """
         :param video_path: 字符串, 视频文件的路径
         :param fps: 生成的视频的帧率
-        :param time_interval: 用于截取视频（开始时间，结束时间）单位秒
+        :param pixels:用于充当像素的字符，因为颜色已经用rgb控制了，这里的pixels其实可以随意排
+        :param chars_width: 字符的宽度（以像素记），会影响最终视频的分辨率。
+        :param t_start, t_end: 视频的开始时间和结束时间，只处理指定时间段的视频。
         """
         # 加载视频,并截取
         video_clip = VideoFileClip(video_path).subclip(t_start, t_end)
@@ -39,6 +41,7 @@ class Video2Chars:
         self.video_size = int(self.chars_width * self.font_width), int(self.chars_height * self.font_width)
 
     def get_char_by_gray(self, gray):
+        """通过灰度值从 pixels 中挑选字符，充当字符动画中的‘像素’"""
         percent = gray / 255  # 转换到 0-1 之间
         index = int(percent * (len(self.pixels) - 1))  # 拿到index
         return self.pixels[index]

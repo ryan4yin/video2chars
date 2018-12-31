@@ -6,7 +6,6 @@ Convert video to character art animation.
 
 ## Install
 
->p.s. Tested only on linux
 
 install video2chars:
 ```
@@ -23,7 +22,7 @@ If you want to use a specific version of `FFMPEG`, you can set the `FFMPEG_BINAR
 ```
 video2chars --chars_width 120 --t_end 10 path_of_video_file
 ```
-The above command shows that the path of the specified video will be converted to a width of 120 characters of video, only 10 seconds before the conversion. 
+The above command shows that the path of the specified video will be converted to a ascii video with a width of 120, and only convert the first 10 seconds. 
 you'll see a file named `output.mp4` in your current directory when it completes, have fun ~
 
 >p.s. if it's a bit slow, turn down the width and fps, to speed up the conversion. 
