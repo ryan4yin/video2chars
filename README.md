@@ -32,7 +32,7 @@ check `video2chars --help` for more information.
 
 ## Demonstration
 
-- [![【Python】字符动画 - 极乐净土](doc/demostration.png)](https://www.bilibili.com/video/av30469888/)
+[![【Python】字符动画 - 极乐净土](doc/demostration.png)](https://www.bilibili.com/video/av30469888/)
 
 
 
