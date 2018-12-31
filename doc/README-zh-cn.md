@@ -28,7 +28,7 @@ video2chars --chars_width 120 --t_end 10 path_of_video_file
 
 ## 演示
 
-- [【Python】字符动画 - 极乐净土](https://www.bilibili.com/video/av30469888/)
+- [![【Python】字符动画 - 极乐净土](doc/demostration.png)](https://www.bilibili.com/video/av30469888/)
 
 ## 旧版
 
