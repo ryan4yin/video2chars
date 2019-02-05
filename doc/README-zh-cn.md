@@ -33,6 +33,12 @@ video2chars --chars_width 120 --t_end 10 path_of_video_file
 
 shell 版 和 html 版 的效果图和代码见 [video2chars - v0.3](https://github.com/yuansuye/video2chars/tree/v0.3)
 
+1. shell 版本演示：
+![bad-apple-chars-gif](doc/bad-apple-chars.gif)
+
+2.  html 版本演示：
+![bad-apple-html-gif](doc/bad-apple-html.gif)
+
 ## 教程
 
 shell 版的教程见[视频转字符动画-Python-60行代码](http://www.cnblogs.com/kirito-c/p/5971988.html)

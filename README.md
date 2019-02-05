@@ -36,9 +36,15 @@ check `video2chars --help` for more information.
 
 
 
-## Older version
+## Old version
 
 [video2chars - v0.3](https://github.com/yuansuye/video2chars/tree/v0.3)
+
+1. shell version demo：
+![bad-apple-chars-gif](doc/bad-apple-chars.gif)
+
+2.  html version demo：
+![bad-apple-html-gif](doc/bad-apple-html.gif)
 
 ## Article
 
