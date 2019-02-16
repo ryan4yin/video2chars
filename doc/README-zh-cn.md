@@ -14,6 +14,12 @@
 pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
+如果你使用的是比较老的 pip，你可能需要先升级一下 pip，或者添加一个选项：
+
+```shell
+pip install video2chars --prefer-binary
+```
+
 ## 用法
 
 ```

@@ -1,6 +1,13 @@
 language: python
 python:
+  - '3.4'
+  - '3.5'
   - '3.6'
+  - '3.7'
+
+# 新版的 pip 会优先使用 wheel 而非 source 包
+# 而 imageio-ffmpeg 只有 wheel 包才内嵌 ffmpeg
+# 所以必须升级
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt

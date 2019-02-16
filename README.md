@@ -16,6 +16,17 @@ install video2chars:
 pip install video2chars
 ```
 
+if you are using a old `pip`, maybe you should add `--prefer-binary` to make things go right:
+
+```shell
+pip install video2chars --prefer-binary
+```
+
+Because there's only a binary version of `imageio-ffmpeg` contains the `ffmpeg` binary.
+if pip choose the source version, problem will occurs. 
+
+or upgrade your pip first.
+
 ## Usage
 
 ```
