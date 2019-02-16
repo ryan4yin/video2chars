@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="video2chars",
-    version="0.6.3",
+    version="0.6.4",
     author="Ryan Yin",
     author_email="xiaoyin_c@qq.com",
     description="Convert video to character art animation.",
@@ -13,7 +13,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/yuansuye/video2chars",
     classifiers=[
-        "Programming Language :: Python :: 3",
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],

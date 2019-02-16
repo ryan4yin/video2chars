@@ -8,6 +8,8 @@ numpy = "*"
 pillow = "*"
 click = "*"
 moviepy = "*"
+imageio-ffmpeg = "*"
+requests = "*" # moviepy 要求的，即使你使用了 imageio-ffmpeg，还是必须安装这个
 
 [dev-packages]
 

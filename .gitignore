@@ -3,4 +3,4 @@ build
 dist
 resources
 video2chars.egg-info
-**/__pycache__
+__pycache__/
