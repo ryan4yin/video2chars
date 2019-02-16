@@ -1,7 +1,10 @@
 language: python
+
+# this two option are required for python 3.7 currently
+sudo: required
+dist: xenial
+
 python:
-  - '3.4'
-  - '3.5'
   - '3.6'
   - '3.7'
 

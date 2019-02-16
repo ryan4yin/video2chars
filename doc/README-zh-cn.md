@@ -14,11 +14,13 @@
 pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-如果你使用的是比较老的 pip，你可能需要先升级一下 pip，或者添加一个选项：
+如果你使用的是比较老的 pip，安装时你可能需要添加 `--prefer-binary` 选项：
 
 ```shell
 pip install video2chars --prefer-binary
 ```
+
+因为本工具依赖 `imageio-ffmpeg`，但只有二进制版本的该依赖内嵌 ffmpeg，如果你从源码安装，很可能会出问题。
 
 ## 用法
 
