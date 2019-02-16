@@ -2,6 +2,7 @@ language: python
 python:
   - '3.6'
 install:
+  - pip install --upgrade pip
   - pip install -r requirements.txt
 
 # 必须有 script 属性，否则会有奇怪的错误。
