@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ryan4yin/video2chars.svg?branch=master)](https://travis-ci.org/ryan4yin/video2chars)
 [![PYPI Version](https://img.shields.io/pypi/v/video2chars.svg)](https://pypi.org/project/video2chars/)
-[![Python 3.4+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
+[![Python 3.6+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
 
 Convert video to character art animation.
 
@@ -15,6 +15,15 @@ install video2chars:
 ```
 pip install video2chars
 ```
+
+if you are using a old `pip`, maybe you should add `--prefer-binary` to make things go right(or upgrade your pip first):
+
+```shell
+pip install video2chars --prefer-binary
+```
+
+Because this tool relies on `imageio-ffmpeg`, but only the binary version of `imageio-ffmpeg` contains the `ffmpeg` binary.
+if pip choose the source version, problem will occurs. 
 
 ## Usage
 

@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ryan4yin/video2chars.svg?branch=master)](https://travis-ci.org/ryan4yin/video2chars)
 [![PYPI Version](https://img.shields.io/pypi/v/video2chars.svg)](https://pypi.org/project/video2chars/)
-[![Python 3.4+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
+[![Python 3.6+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
 
 这是一个能将视频文件转换成字符动画的命令行工具，使用 pillow + moviepy 实现
 
@@ -13,6 +13,14 @@
 # 使用清华镜像源加速下载
 pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
+
+如果你使用的是比较老的 pip，安装时你可能需要添加 `--prefer-binary` 选项：
+
+```shell
+pip install video2chars --prefer-binary
+```
+
+因为本工具依赖 `imageio-ffmpeg`，但只有二进制版本的该依赖内嵌 ffmpeg，如果你从源码安装，很可能会出问题。
 
 ## 用法
 
