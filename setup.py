@@ -21,7 +21,7 @@ setuptools.setup(
     ],
 
     packages=setuptools.find_packages(),
-    install_requires=['moviepy', 'numpy', 'pillow', 'click', 'requests'],
+    install_requires=['moviepy', 'numpy', 'pillow', 'click', 'requests', 'imageio-ffmpeg'],
 
     package_data={
         "video2chars": ['DroidSansMono.ttf'],
