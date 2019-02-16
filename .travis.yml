@@ -2,14 +2,12 @@ language: python
 python:
   - '3.6'
 install:
-  - pip install pipenv
-  - pipenv install
+  - pip install -r requirements.txt
+script: echo "okay"
 deploy:
   provider: pypi
   user: $PYPI_USERNAME
   password: $PYPI_PASSWD
   distributions: "sdist bdist_wheel"
   on:
-    python: 3.6+
-    tags: true
     branch: master
