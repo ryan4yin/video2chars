@@ -10,5 +10,4 @@ deploy:
   distributions: "sdist bdist_wheel"
   on:
     python: 3.6+
-    tags: true
     branch: master
