@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="video2chars",
-    version="0.6.2",
+    version="0.6.3",
     author="Ryan Yin",
     author_email="xiaoyin_c@qq.com",
     description="Convert video to character art animation.",
