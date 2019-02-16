@@ -27,3 +27,4 @@ deploy:
   on:
     tags: true
     skip_existing: true
+    python: "3.6"  # 通用的包，只需要 deploy 一次就好
