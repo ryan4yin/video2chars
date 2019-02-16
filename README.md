@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ryan4yin/video2chars.svg?branch=master)](https://travis-ci.org/ryan4yin/video2chars)
 [![PYPI Version](https://img.shields.io/pypi/v/video2chars.svg)](https://pypi.org/project/video2chars/)
-
+[![Python 3.4+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
 
 Convert video to character art animation.
 
@@ -18,13 +18,8 @@ pip install video2chars
 
 ## Usage
 
->P.S. `video2chars` depends on `moviepy`, and `moviepy` depends on the software `FFMPEG` for video reading and writing. You don’t need to worry about that, 
-as `FFMPEG` should be automatically downloaded/installed by `ImageIO` during your first use of `video2chars`.
-If you want to use a specific version of `FFMPEG`, you can set the `FFMPEG_BINARY` environment variable.
- See [moviepy/config_defaults.py](https://github.com/Zulko/moviepy/blob/master/moviepy/config_defaults.py) for details.
-
 ```
-video2chars --chars_width 120 --t_end 10 path_of_video_file
+video2chars --chars_width 120 --t_end 10 path/of/video_file
 ```
 The above command shows that the path of the specified video will be converted to a ascii video with a width of 120, and only convert the first 10 seconds. 
 you'll see a file named `output.mp4` in your current directory when it completes, have fun ~

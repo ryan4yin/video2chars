@@ -1,5 +1,9 @@
 # 视频转字符动画
 
+[![Build Status](https://travis-ci.org/ryan4yin/video2chars.svg?branch=master)](https://travis-ci.org/ryan4yin/video2chars)
+[![PYPI Version](https://img.shields.io/pypi/v/video2chars.svg)](https://pypi.org/project/video2chars/)
+[![Python 3.4+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
+
 这是一个能将视频文件转换成字符动画的命令行工具，使用 pillow + moviepy 实现
 
 ## 安装
@@ -12,11 +16,8 @@ pip install video2chars -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## 用法
 
->P.S. 第一次使用 `video2chars` 命令时，会自动下载 `ffmpeg`，该过程在国内可能比较慢。建议自己手动下载，然后配置好环境变量： `FFMPEG_BINARY`
-具体参见 [moviepy 手动指定 ffmpeg 路径](https://github.com/Zulko/moviepy/blob/master/moviepy/config_defaults.py) 
-
 ```
-video2chars --chars_width 120 --t_end 10 path_of_video_file
+video2chars --chars_width 120 --t_end 10 path/of/video_file
 ```
 上面的命令表示，将指定路径的视频，转换成宽度为120字符的视频，只转换前十秒。
 命令运行完毕后，会在当前目录下生成一个名为 `output.mp4` 的字符视频。
