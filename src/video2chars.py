@@ -18,7 +18,7 @@ def video2imgs(video_name, size, seconds):
     :param seconds: 指定需要解码的时长（0-seconds）
     :return: 一个 img 对象的列表，img对象实际上就是 numpy.ndarray 数组
     """
-    import cv2  # 导入 opencv
+    import cv2  # 导入 opencv，放这里是为了演示，建议放文件开头
 
     img_list = []
 
@@ -58,25 +58,26 @@ def video2imgs(video_name, size, seconds):
 
 
 def img2chars(img):
-    res = []
     """
 
     :param img: numpy.ndarray, 图像矩阵
     :return: 字符串的列表：图像对应的字符画，其每一行对应图像的一行像素
     """
+    res = []
+
+    # 灰度是用8位表示的，最大值为255。
+    # 这里将灰度转换到0-1之间
+    percents = img / 255
+
+    # 将灰度值进一步转换到 0 到 (len(pixels) - 1) 之间，这样就和 pixels 里的字符对应起来了
+    indexes = (percents * (len(pixels) - 1)).astype(np.int)
 
     # 要注意这里的顺序和 之前的 size 刚好相反
     height, width = img.shape
     for row in range(height):
         line = ""
         for col in range(width):
-            # 灰度是用8位表示的，最大值为255。
-            # 这里将灰度转换到0-1之间
-            percent = img[row][col] / 255
-
-            # 将灰度值进一步转换到 0 到 (len(pixels) - 1) 之间，这样就和 pixels 里的字符对应起来了
-            index = int(percent * (len(pixels) - 1))
-
+            index = indexes[row][col]
             # 添加字符像素（最后面加一个空格，是因为命令行有行距却没几乎有字符间距，用空格当间距）
             line += pixels[index] + " "
         res.append(line)
@@ -99,7 +100,7 @@ def play_video(video_chars, frames_rate):
     :param frames_rate: 帧率
     :return: None
     """
-    # 导入需要的模块（放这里是为了演示，建议移出去）
+    # 导入需要的模块（放这里是为了演示，建议放文件开头）
     import time
     import curses
 
