@@ -11,18 +11,18 @@ Convert video to character art animation.
 ## Install
 
 
-install video2chars:
+Install video2chars:
 ```
 pip install video2chars
 ```
 
-if you are using a old `pip`, maybe you should add `--prefer-binary` to make things go right(or upgrade your pip first):
+If you are using a old `pip`, maybe you should add `--prefer-binary` to make things go right(or upgrade your pip first):
 
 ```shell
 pip install video2chars --prefer-binary
 ```
 
-Because this tool relies on `imageio-ffmpeg`, but only the binary version of `imageio-ffmpeg` contains the `ffmpeg` binary.
+This tool relies on `imageio-ffmpeg`, but only the binary version of `imageio-ffmpeg` contains the `ffmpeg` binary.
 if pip choose the source version, problem will occurs. 
 
 ## Usage
@@ -35,7 +35,7 @@ you'll see a file named `output.mp4` in your current directory when it completes
 
 >p.s. if it's a bit slow, turn down the width and fps, to speed up the conversion. 
 
-check `video2chars --help` for more information.
+Check `video2chars --help` for more information.
 
 
 ## Demonstration
