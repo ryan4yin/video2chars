@@ -13,11 +13,12 @@ python:
 # 所以必须升级
 install:
   - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - pip install pipenv
+  - pipenv sync  #  Installs all packages specified in Pipfile.lock.
 
 # 必须有 script 属性，否则会有奇怪的错误。
 script:
-  - python -m unittest tests.test_convert
+  - pipenv run python -m unittest tests.test_convert
 
 deploy:
   provider: pypi
