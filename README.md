@@ -1,5 +1,6 @@
 # Video to Chars
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/07055fe560ba40af83ec09d413d93f4c)](https://app.codacy.com/app/xiaoyin_c/video2chars?utm_source=github.com&utm_medium=referral&utm_content=ryan4yin/video2chars&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/ryan4yin/video2chars.svg?branch=master)](https://travis-ci.org/ryan4yin/video2chars)
 [![PYPI Version](https://img.shields.io/pypi/v/video2chars.svg)](https://pypi.org/project/video2chars/)
 [![Python 3.6+](https://img.shields.io/pypi/pyversions/video2chars.svg?style=flat)](https://www.python.org/)
