@@ -31,10 +31,10 @@ if pip choose the source version, problem will occurs.
 ```
 video2chars --chars_width 120 --t_end 10 path/of/video_file
 ```
-The above command shows that the path of the specified video will be converted to a ascii video with a width of 120, and only convert the first 10 seconds. 
-you'll see a file named `output.mp4` in your current directory when it completes, have fun ~
+The command shows that the specified video will be converted to an ascii art animation with the width of 120, and only convert the first 10 seconds. 
+you'll see a file named `output.mp4` in your current directory when completes, have fun ~
 
->p.s. if it's a bit slow, turn down the width and fps, to speed up the conversion. 
+>p.s. it's a bit slow, turn down the width and fps, to speed up the conversion. 
 
 Check `video2chars --help` for more information.
 
@@ -58,3 +58,7 @@ Check `video2chars --help` for more information.
 ## Article
 
 Shell Version(in Chinese): [视频转字符动画-Python-60行代码](http://www.cnblogs.com/kirito-c/p/5971988.html)
+
+## Related Projects
+
+- [Video2ASCII.jl(Julia Version)](https://github.com/ryan4yin/Video2ASCII.jl)

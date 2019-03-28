@@ -52,3 +52,7 @@ shell 版 和 html 版 的效果图和代码见 [video2chars - v0.3](https://git
 
 shell 版的教程见[视频转字符动画-Python-60行代码](http://www.cnblogs.com/kirito-c/p/5971988.html)
 
+
+## 相关项目
+
+- [Video2ASCII.jl(Julia 版)](https://github.com/ryan4yin/Video2ASCII.jl)
