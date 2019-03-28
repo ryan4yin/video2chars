@@ -17,7 +17,7 @@ Install video2chars:
 pip install video2chars
 ```
 
-If you are using a old `pip`, maybe you should add `--prefer-binary` to make things go right(or upgrade your pip first):
+If you're using an old version of `pip`, maybe you should add `--prefer-binary` to make things go right(or upgrade your pip first):
 
 ```shell
 pip install video2chars --prefer-binary
