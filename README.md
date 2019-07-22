@@ -62,3 +62,8 @@ Shell Version(in Chinese): [视频转字符动画-Python-60行代码](http://www
 ## Related Projects
 
 - [Video2ASCII.jl(Julia Version)](https://github.com/ryan4yin/Video2ASCII.jl)
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/ryan4yin/video2chars.svg)](https://starchart.cc/ryan4yin/video2chars)
