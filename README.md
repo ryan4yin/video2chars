@@ -29,7 +29,7 @@ if pip choose the source version, problem will occurs.
 ## Usage
 
 ```
-video2chars --chars_width 120 --t_end 10 path/of/video_file
+video2chars --width 120 --end 10 path/of/video_file
 ```
 The command shows that the specified video will be converted to an ascii art animation with the width of 120, and only convert the first 10 seconds. 
 you'll see a file named `output.mp4` in your current directory when completes, have fun ~

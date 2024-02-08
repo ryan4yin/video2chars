@@ -25,7 +25,7 @@ pip install video2chars --prefer-binary
 ## 用法
 
 ```
-video2chars --chars_width 120 --t_end 10 path/of/video_file
+video2chars --width 120 --end 10 path/of/video_file
 ```
 上面的命令表示，将指定路径的视频，转换成宽度为120字符的视频，只转换前十秒。
 命令运行完毕后，会在当前目录下生成一个名为 `output.mp4` 的字符视频。
