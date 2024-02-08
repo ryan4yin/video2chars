@@ -1,6 +1,6 @@
 [project]
 name = "video2chars"
-version = "0.6.6"
+version = "0.7.0"
 authors = [
     { name="Ryan Yin", email="ryan4yin@linux.com" },
 ]
