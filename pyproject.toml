@@ -1,0 +1,46 @@
+[project]
+name = "video2chars"
+version = "0.6.6"
+authors = [
+    { name="Ryan Yin", email="ryan4yin@linux.com" },
+]
+description = "Convert video to character art animation."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.25.0,<1.27.0",
+    "pillow>=9.5.0,<10.0.0",
+    "click>=8.0.0,<9.0.0",
+    "moviepy>=1.0.3,< 1.1.0",
+    "imageio-ffmpeg>=0.4.9,<0.5.0",
+]
+license = {text = "MIT"}
+
+
+[project.scripts]
+video2chars = "video2chars:convert"
+
+[project.urls]
+Homepage = "https://github.com/yuansuye/video2chars"
+Issues = "https://github.com/yuansuye/video2chars/issues"
+
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+includes = ["video2chars/DroidSansMono.ttf"]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+]

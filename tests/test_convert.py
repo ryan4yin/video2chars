@@ -9,7 +9,7 @@ from video2chars import Video2Chars
 class TestConvert(unittest.TestCase):
     current_path = Path(__file__).absolute().parent
     video_path = current_path / Path("BadApple.mp4")
-    output_path = current_path / Path("output.mp4")
+    output_path = Path("output.mp4")
 
     def setUp(self):
         pass
